@@ -1,0 +1,69 @@
+Steps
+Ensure you have a kubernetes cluster in place
+Ensure you have a jenkins server setup
+
+1. Create a service account on the kubernetes cluster
+- $ kubectl create serviceaccount jenkins
+
+2. Create a binding role (run the below command on the kubernetes master)
+
+cat <<EOF | kubectl create -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: jenkins-integration
+  labels:
+    k8s-app: jenkins-image-builder
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: jenkins
+  namespace: default
+EOF
+
+3. Extract service account token (run the below command on the k8 master)
+  kubectl get secrets $(kubectl get serviceaccounts jenkins -o jsonpath='{.secrets[].name}' -o jsonpath='{.data.token}') | base64 -d
+
+  In case the token is not shown run the below command, run the below commands to solve the problem
+
+cat <<EOF | kubectl create -f -
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: jenkins
+  annotations: 
+    kubernetes.io/service-account.name: jenkins
+EOF
+
+
+Then run the command to extract the secret again
+  kubectl get secrets jenkins -o jsonpath='{.data.token}' | base64 -d
+
+4. Copy the token to a notepad
+
+5. Add the token as credentials on jenkins
+
+6. Add new cloud (on Jenkins)
+    - Specify the kubernetes cluster url. This can be found in .kube/config file
+    - Generate kubernetes certificate key. Use the content of the certificate authority in the config file
+      echo -n <content of certificte authority from the cluster config file> | base64 --decode
+
+7. Copy the generated crtificate key and paste in the required field on jenkins
+
+8. Use pipeline syntax to generate kuberntescli configuration
+    - Select withkubernetescredential: configure kubernetes cli (kubectl) with multiple credentials
+
+
+
+
+
+
+
+
+
+
+eyJhbGciOiJSUzI1NiIsImtpZCI6IjNOSmV5Y0hBeTJHSjdTT0xZdnFRRWZzVjBqR3c1ZFhJNmx3QkdUSWFaNFkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImplbmtpbnMiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiamVua2lucyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjI5Y2Y4NTJlLTI5YWYtNGE2NC04YWIyLTFhOTc2ZjZmYjNiZSIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmplbmtpbnMifQ.5mi2pMsuyRH9jfu3Hy6YMh9MTrAzRZ9N4jC0RHifmbrftXPFESW8OwxAIzABY4VAS8CiAFTmo7-AhOIZ6UzKpsIGpME3cV1zUuivZLkU9E3DrQMRn6NXwj3vkMW6iuy_3psmFGwOWYPygbR_4i9DT88uBsva5NTZUmX3XOSkSLDVvaeLTxejr11P9_IdF_UCQxi-Hp8UOJND7lOH_orKCdFTWHseW0CVN4lY2A49CTUwCKxjYBcQUL7RIth8kFgp6SzdnX-JnGE2CNGAqsOA5T9YZwIC0E4AIT9bEo_uUlgZ2PFU-UzULF9FNfV5MQx4oKsVgS2Qizc8cvOsqXMmaw

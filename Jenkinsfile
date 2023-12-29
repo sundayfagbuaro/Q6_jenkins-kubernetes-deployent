@@ -17,7 +17,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "Building the image"
-                sh 'docker build -t sundayfagbuaro/jenkdockapp:v3.2 .'
+                sh 'docker build -t sundayfagbuaro/kubetestapp:v1.0 .'
             }
         }
 
@@ -27,23 +27,15 @@ pipeline {
                     withCredentials([string(credentialsId: 'docker-pwd', variable: 'DockerHubPwd')]) {
                 sh 'docker login -u sundayfagbuaro -p ${DockerHubPwd}' 
                 }
-                sh 'docker push sundayfagbuaro/jenkdockapp:v3.2'
+                sh 'docker push sundayfagbuaro/kubetestapp:v1.0'
             }
         }
 
-        stage('Run Container on The Dev Server') {
+        stage('Deploying React.js container to Kubernetes') {
             steps {
                 script {
-                    sshagent(['dev_server']) {
-                        sh """ssh -tt -o StrictHostKeyChecking=no bobosunne@192.168.1.85 << EOF
-                        docker stop jenkdockapp
-                        docker rm jenkdockapp
-                        docker run -d -p 8080:80 --name jenkdockapp sundayfagbuaro/jenkdockapp:v3.2
-                        exit
-                        EOF"""
+                     kubernetesDeploy(configs: "nginx-deployment.yaml", "nginx-service.yaml")
                     }
-                }
-            }
         }
     }
 }
