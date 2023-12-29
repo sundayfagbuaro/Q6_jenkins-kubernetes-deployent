@@ -37,5 +37,6 @@ pipeline {
                      kubernetesDeploy(configs: "nginx-deployment.yaml", "nginx-service.yaml")
                     }
         }
-    }
+        }
+}
 }
