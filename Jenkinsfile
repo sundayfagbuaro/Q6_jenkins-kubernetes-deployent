@@ -31,14 +31,16 @@ pipeline {
             }
         }
 
-        stage('Deploy App') {
+        stage('List Nodes') {
             steps {
-                script {
-                    kubernetesDeploy configs: '', 
-                    kubeConfig: [path: '/home/bobosunne/my_k8_config'], 
-                    kubeconfigId: 'my_k8_config', 
-                    secretName: 'K8_SECRET_TOKEN', 
-                    [serverUrl: 'https://192.168.1.91:6443']
+
+                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'K8_SECRET_TOKEN', namespace: 'default', serverUrl: 'https://192.168.1.91:6443']]) {
+                    sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.28.4/bin/linux/amd64/kubectl"'
+                    sh 'chmod u+x ./kubectl'  
+                    sh './kubectl get nodes'
+                    sh './kubectl apply -f deployment.yaml'
+                    sh './kubectl apply -f service.yaml'
+                    sh './kubectl get pods'
                 }
             }
         }
