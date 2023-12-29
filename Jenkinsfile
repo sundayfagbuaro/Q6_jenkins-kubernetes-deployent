@@ -35,6 +35,7 @@ pipeline {
             steps {
 
                 withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'K8_SECRET_TOKEN', namespace: 'default', serverUrl: 'https://192.168.1.91:6443']]) {
+                    kubernetesDeploy configs: 'deployment.yaml, service.yaml', kubeconfigId: 'my_k8_config', secretName: 'K8_SECRET_TOKEN'
                     sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.28.4/bin/linux/amd64/kubectl"'
                     sh 'chmod u+x ./kubectl'  
                     sh './kubectl get nodes'
