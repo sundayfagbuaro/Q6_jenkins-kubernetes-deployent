@@ -34,12 +34,14 @@ pipeline {
         stage('Deploy App') {
             steps {
                 script {
-                    kubernetesDeploy(
-                        configs: "nginx-deployment.yaml", "nginx-service.yaml",
-                        kubeconfigId: "my_k8_config"
-                        )
+                    kubernetesDeploy configs: '', 
+                    kubeConfig: [path: '/home/bobosunne/my_k8_config'], 
+                    kubeconfigId: 'my_k8_config', 
+                    secretName: 'K8_SECRET_TOKEN', 
+                    [serverUrl: 'https://192.168.1.91:6443']
+                }
+            }
         }
-      }
     }
 }
-}
+
