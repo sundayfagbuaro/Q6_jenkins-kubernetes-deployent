@@ -31,12 +31,12 @@ pipeline {
             }
         }
 
-        stage('Deploying React.js container to Kubernetes') {
+        stage('Deploy App') {
             steps {
                 script {
-                     kubernetesDeploy(configs: "nginx-deployment.yaml", "nginx-service.yaml")
-                    }
+                    kubernetesDeploy(configs: "nginx-deployment.yaml", "nginx-service.yaml" kubeconfigId: "my_k8_config")
         }
-        }
+      }
+    }
 }
 }
