@@ -34,7 +34,7 @@ pipeline {
         stage('List Nodes') {
             steps {
                 script {
-                        kubernetesDeploy kubeconfigId: 'my_k8_config', secretName: 'K8_Secret_Token_JenkUser', serverUrl: 'https://192.168.1.91:6443', configs: 'deployment.yaml'
+                        kubernetesDeploy kubeconfigId: 'my_k8_config', secretName: 'K8_Secret_Token_JenkUser', configs: 'deployment.yaml'
                 }
             }
                 
