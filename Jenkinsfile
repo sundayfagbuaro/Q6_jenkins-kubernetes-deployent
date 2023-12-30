@@ -31,14 +31,20 @@ pipeline {
             }
         }
 
-        stage('Deploy App') {
+        stage('Deploy to K8s') {
             steps {
                 script {
-                    kubernetesDeploy (configs: 'deployment.yaml', kubeconfigId: 'k8config')                    
+                    sshagent(['k8']) {
+                    sh """ssh -tt -o StrictHostKeyChecking=no bobosunne@192.168.1.91 << EOF
+                        scp deployment.yaml bobosunne@192.168.1.91:/home/bobosunne/k8dep
+                        cd /home/bobosunne/k8dep && kubectl apply -f deployment.yaml
+                        exit
+                        EOF"""
                     }
-                        
+                    
                 }
             }
+        }
     }
 }
 
