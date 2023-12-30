@@ -35,13 +35,15 @@ pipeline {
             steps {
                 script {
                     sshagent(['k8']) {
-                    sh """ssh -tt -o StrictHostKeyChecking=no bobosunne@192.168.1.91 << EOF
-                        scp deployment.yaml bobosunne@192.168.1.91:/home/bobosunne/k8dep
-                        cd /home/bobosunne/k8dep
-                        kubectl apply -f deployment.yaml
-                        EOF"""
-                    }
-                    
+                    sh "scp -o StrictHostKeyChecking=no bobosunne@192.168.1.91:/home/bobosunne/k8dep"
+                    script{
+                        try{
+                            sh "ssh bobosunne@192.168.1.91 kubectl apply -f ."
+                        }catch(error){
+                            sh "ssh bobosunne@192.168.1.91 kubectl create -f ."
+                        }
+                   }
+                }
                 }
             }
         }
