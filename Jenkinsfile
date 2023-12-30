@@ -31,14 +31,10 @@ pipeline {
             }
         }
 
-        stage('List Nodes') {
+        stage('Deploy App') {
             steps {
                 script {
-
-                    withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'K8_SECRET_TOKEN', namespace: 'default', serverUrl: 'https://192.168.1.91:6443']]) {
-                        kubernetesDeploy kubeconfigId: 'my_k8_config', configs: 'deployment.yaml'
-                    }
-                    
+                    kubernetesDeploy (configs: 'deployment.yaml', kubeconfigId: 'k8config')                    
                     }
                         
                 }
