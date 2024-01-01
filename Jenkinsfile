@@ -5,9 +5,9 @@ pipeline {
         stage('SCM Checkout') {
             steps {
                 script {
-                    git branch: 'testbranch',
+                    git branch: 'newtest',
                         credentialsId: 'git', 
-                        url: 'https://github.com/sundayfagbuaro/Q3_Jenkins_Pipeline.git'
+                        url: 'https://github.com/sundayfagbuaro/Q6_jenkins-kubernetes-deployent.git'
                 // cloning repo
                 // git credentialsId: 'git', url: 'https://github.com/sundayfagbuaro/Q3_Jenkins_Pipeline.git'
                 }
