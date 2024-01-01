@@ -33,6 +33,7 @@ pipeline {
 
         stage('Deploy to K8s') {
             steps {
+                sh "ls -lrt"
                 sshagent(['k8']) {
                     sh "scp -o StrictHostKeyChecking=no service.yaml bobosunne@192.168.1.91:/home/bobosunne/"
                     script{
