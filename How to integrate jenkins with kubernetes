@@ -27,6 +27,9 @@ EOF
 3. Extract service account token (run the below command on the k8 master)
   kubectl get secrets $(kubectl get serviceaccounts jenkins -o jsonpath='{.secrets[].name}' -o jsonpath='{.data.token}') | base64 -d
 
+  
+
+
   In case the token is not shown run the below command, run the below commands to solve the problem
 
 cat <<EOF | kubectl create -f -

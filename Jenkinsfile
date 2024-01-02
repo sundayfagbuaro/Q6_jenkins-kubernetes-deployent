@@ -5,7 +5,7 @@ pipeline {
         stage('SCM Checkout') {
             steps {
                 script {
-                    git branch: 'newtest',
+                    git branch: 'newtest2',
                         credentialsId: 'git', 
                         url: 'https://github.com/sundayfagbuaro/Q6_jenkins-kubernetes-deployent.git'
                 // cloning repo
@@ -34,7 +34,7 @@ pipeline {
         stage('Deploy to K8s') {
             steps {
                 script{
-                    kubernetesDeploy (configs: 'deployment.yaml', kubeconfigId: 'k8config')
+                    kubernetesDeploy (configs: 'deployment.yaml', 'service.yaml' kubeconfigId: 'k8config')
                 }
                 
         }
