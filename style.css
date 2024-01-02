@@ -3,3 +3,7 @@ body{
     border-style: dashed;
     border-width: 10%;
 }
+
+div {
+    background-color: black;
+}
