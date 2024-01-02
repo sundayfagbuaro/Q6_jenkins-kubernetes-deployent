@@ -17,7 +17,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "Building the image"
-                sh 'docker build -t sundayfagbuaro/kubetestapp:v1.2 .'
+                sh 'docker build -t sundayfagbuaro/kubetestapp:v1.3 .'
             }
         }
 
@@ -27,7 +27,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'docker-pwd', variable: 'DockerHubPwd')]) {
                 sh 'docker login -u sundayfagbuaro -p ${DockerHubPwd}' 
                 }
-                sh 'docker push sundayfagbuaro/kubetestapp:v1.2'
+                sh 'docker push sundayfagbuaro/kubetestapp:v1.3'
             }
         }
 
