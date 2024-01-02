@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     git branch: 'newtest2',
-                        credentialsId: 'git', 
+                        credentialsId: 'git-hub', 
                         url: 'https://github.com/sundayfagbuaro/Q6_jenkins-kubernetes-deployent.git'
                 // cloning repo
                 // git credentialsId: 'git', url: 'https://github.com/sundayfagbuaro/Q3_Jenkins_Pipeline.git'
