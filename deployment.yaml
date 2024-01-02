@@ -6,7 +6,7 @@ metadata:
   labels:
     app: nginx
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: nginx
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: sundayfagbuaro/kubetestapp:v1.0
+        image: sundayfagbuaro/kubetestapp:v1.1
         ports:
         - containerPort: 80
  
