@@ -24,11 +24,11 @@ pipeline {
         stage ("Push Docker Image") {
             steps {
                     echo "Pushing the built image to docker hub"
-                    withCredentials([string(credentialsId: 'DOCKER-HUB-TOKEN', variable: 'docker-hub-token')]) {
-                    sh 'docker login -u sundayfagbuaro -p ${docker-hub-token}' 
+                    withCredentials([string(credentialsId: 'docker-pwd', variable: 'DockerHubPwd')]) {
+                sh 'docker login -u sundayfagbuaro -p ${DockerHubPwd}' 
                 }
-                    sh 'docker push sundayfagbuaro/kubetestapp:v1.2'
-            }    
+                sh 'docker push sundayfagbuaro/kubetestapp:v1.2'
+            }
         }
 
         stage('Deploy to K8s') {
