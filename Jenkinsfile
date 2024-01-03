@@ -45,7 +45,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'docker-pwd', variable: 'DockerHubPwd')]) {
                 sh 'docker login -u ${DOCKER_USER} -p ${DockerHubPwd}' 
                 }
-                sh 'docker push ${DOCKER_USER}/${IMAGE_NAME}:${IMAGE_TAG}'
+                sh 'docker push ${DOCKER_USER}/${APP_NAME}:${IMAGE_TAG}'
             }
         }
 
