@@ -2,9 +2,7 @@ pipeline {
     agent{
         label "JENKINS-AGENT-1"
     }
-    tools{
-
-    }
+    
     environment{
         APP_NAME = "k8-deployment-test"
         RELEASE = "1.0.0"
@@ -18,7 +16,7 @@ pipeline {
     stages {
         stage('Cleanup Workspace'){
             steps{
-                cleanWs
+                sh 'cleanWs'
             }
         }
 
