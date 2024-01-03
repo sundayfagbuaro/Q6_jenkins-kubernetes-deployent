@@ -3,6 +3,10 @@ pipeline {
         label "JENKINS-AGENT-1"
     }
     
+    tools{
+
+    }
+    
     stages {
         stage('Cleanup Workspace'){
             steps{
