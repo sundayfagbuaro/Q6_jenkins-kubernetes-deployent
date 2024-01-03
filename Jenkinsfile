@@ -36,6 +36,7 @@ pipeline {
             steps {
                 echo "Building the image"
                 sh 'docker build -t ${DOCKER_USER}/${APP_NAME}:${IMAGE_TAG} .'
+                sh 'docker tag ${DOCKER_USER}/${APP_NAME}:${IMAGE_TAG}:latest'
             }
         }
 
