@@ -8,7 +8,7 @@ pipeline {
         RELEASE = "1.0.0"
         DOCKER_USER = "sundayfagbuaro"
         DOCKER_PASS = "docker-pwd"
-        IMAGE_NAME = '${DOCKER_USER} + "/" ${APP_NAME}'
+        IMAGE_NAME = '${DOCKER_USER} + "/" + ${APP_NAME}'
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
         JENKINS_API_TOKEN = credentials('JENKINS_API_TOKEN')
     }
@@ -35,7 +35,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "Building the image"
-                sh 'docker build -t ${DOCKER_USER}/${APP_NAME}:${IMAGE_TAG} .'
+                sh 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
             }
         }
 
@@ -45,7 +45,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'docker-pwd', variable: 'DockerHubPwd')]) {
                 sh 'docker login -u ${DOCKER_USER} -p ${DockerHubPwd}' 
                 }
-                sh 'docker push ${DOCKER_USER}/${APP_NAME}:${IMAGE_TAG}'
+                sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
             }
         }
 
