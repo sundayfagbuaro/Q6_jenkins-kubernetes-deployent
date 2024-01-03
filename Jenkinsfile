@@ -5,7 +5,7 @@ pipeline {
     tools{
 
     }
-    ennvironment{
+    environment{
         APP_NAME = "k8-deployment-test"
         RELEASE = "1.0.0"
         DOCKER_USER = "sundayfagbuaro"
