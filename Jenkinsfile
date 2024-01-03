@@ -1,11 +1,31 @@
 pipeline {
-    agent any
+    agent{
+        label "JENKINS-AGENT-1"
+    }
+    tools{
+
+    }
+    ennvironment{
+        APP_NAME = "k8-deployment-test"
+        RELEASE = "1.0.0"
+        DOCKER_USER = "sundayfagbuaro"
+        DOCKER_PASS = "docker-pwd"
+        IMAGE_NAME = "${DOCKER_USER}" + "/" "${APP_NAME}"
+        IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
+        JENKINS_API_TOKEN = credentials('JENKINS_API_TOKEN')
+    }
     
     stages {
+        stage('Cleanup Workspace'){
+            steps{
+                cleanWs
+            }
+        }
+
         stage('SCM Checkout') {
             steps {
                 script {
-                    git branch: 'newtest2',
+                    git branch: 'ideal',
                         credentialsId: 'git-hub', 
                         url: 'https://github.com/sundayfagbuaro/Q6_jenkins-kubernetes-deployent.git'
                 // cloning repo
@@ -17,7 +37,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "Building the image"
-                sh 'docker build -t sundayfagbuaro/kubetestapp:v1.3 .'
+                sh 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
             }
         }
 
@@ -25,19 +45,12 @@ pipeline {
             steps {
                     echo "Pushing the built image to docker hub"
                     withCredentials([string(credentialsId: 'docker-pwd', variable: 'DockerHubPwd')]) {
-                sh 'docker login -u sundayfagbuaro -p ${DockerHubPwd}' 
+                sh 'docker login -u ${DOCKER_USER} -p ${DockerHubPwd}' 
                 }
-                sh 'docker push sundayfagbuaro/kubetestapp:v1.3'
+                sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
             }
         }
 
-        stage('Deploy to K8s') {
-            steps {
-                script{
-                    kubernetesDeploy (configs: "deployment.yaml", kubeconfigId: 'k8config')
-                }
-            }
-        }
     }
 }
 
