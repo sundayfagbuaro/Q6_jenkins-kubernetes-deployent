@@ -35,7 +35,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "Building the image"
-                sh 'docker build -t sundayfagbuaro:${IMAGE_TAG} .'
+                sh 'docker build -t sundayfagbuaro/${APP_NAME}:${IMAGE_TAG} .'
             }
         }
 
