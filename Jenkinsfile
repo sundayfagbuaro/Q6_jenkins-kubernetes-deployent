@@ -52,7 +52,7 @@ pipeline {
 	stage('Trigger CD Pipeline'){
  	   steps{
 	     script{
-      		sh "curl -v -k --user bobsunne:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'http://192.168.1.96:8080/job/k8_deployment/buildwithParameters?token=k8-deployment'"
+      		sh "curl -v -k --user bobsunne:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'http://192.168.1.96:8080/job/k8_deployment/buildWithParameters?token=abcdef'"
     	     }
   	   }
 	}
