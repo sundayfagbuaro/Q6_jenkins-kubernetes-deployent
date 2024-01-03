@@ -35,7 +35,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "Building the image"
-                sh 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
+                sh 'docker build -t ${DOCKER_USER}/${APP_NAME}:${IMAGE_TAG} .'
             }
         }
 
@@ -45,7 +45,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'docker-pwd', variable: 'DockerHubPwd')]) {
                 sh 'docker login -u ${DOCKER_USER} -p ${DockerHubPwd}' 
                 }
-                sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
+                sh 'docker push ${DOCKER_USER}/${APP_NAME}:${IMAGE_TAG}'
             }
         }
 
