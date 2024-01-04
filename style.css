@@ -6,6 +6,9 @@ body{
 
 #div1 {
     background-color: rgb(0, 0, 0);
+    position: absolute;
+    border-style: double;
+    padding-left: 25%; padding-right: 25%;
 }
 
 #div2 {
