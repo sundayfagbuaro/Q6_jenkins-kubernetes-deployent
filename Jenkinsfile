@@ -54,7 +54,7 @@ pipeline {
  	   steps{
 	     script{
       	//	sh "curl -v -k --user bobsunne:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'http://192.168.1.96:8080/job/k8_deployment/buildWithParameters?token=abcdef'"
-    	    sh "curl -v -k -X POST -H 'cache-control: no cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'http://bobsunne:11c11f50d3fd052213406933b207495522@192.168.1.96:8080/job/k8_deployment/buildWithParameters?token=abcdef'" 
+    	    sh "curl -v -k -X POST -H 'cache-control: no cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'http://bobsunne:11c11f50d3fd052213406933b207495522@192.168.1.96:8080/job/Q6_k8s_deploy/buildWithParameters?token=abcdef'" 
             
              }
   	   }
