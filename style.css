@@ -6,7 +6,7 @@ body{
 
 #div1 {
     background-color: rgb(210, 123, 123);
-    position: absolute;
+    align-items: center;
     border-style: double;
     padding-left: 25%; padding-right: 25%;
 }
